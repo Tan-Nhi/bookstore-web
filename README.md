@@ -1,7 +1,5 @@
 # Book Store Web 
 
-### Môi trường chạy dự án: Node.js v20.14.0
-
 Các bước cài đặt: (chế độ development)
 
 1. clone code
