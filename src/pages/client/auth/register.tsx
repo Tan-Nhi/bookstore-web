@@ -1,4 +1,4 @@
-import { App, Button, Col, Divider, Form, FormProps, Input, InputNumber, Row } from "antd";
+import { App, Button, Col, Divider, Form, FormProps, Input, Row } from "antd";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerApi } from "services/api";
@@ -22,8 +22,6 @@ const RegisterPage = () => {
 
         const { fullName, email, password, phone } = values;
         const res = await registerApi(fullName, email, password, phone);
-        console.log(res.data);
-
         if (res.data) {
             message.success("Đăng ký thành công")
             navigate('/login')
@@ -104,9 +102,19 @@ const RegisterPage = () => {
                                                 label="Số điện thoại"
                                                 name="phone"
                                                 rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' },
+                                                {
+                                                    pattern: /^((\+84)|0)(3|5|7|8|9)[0-9]{8}$/,
+                                                    message: "Số điện thoại không hợp lệ!"
+                                                },
+
                                                 ]}
                                             >
-                                                <InputNumber style={{ width: "100%" }} />
+                                                <Input
+                                                    placeholder="VD: 09876547281 hoặc +849876547281"
+                                                    style={{ width: "100%" }}
+                                                    max={13}
+                                                    min={10}
+                                                />
                                             </Form.Item>
 
                                             <Form.Item label={null} >

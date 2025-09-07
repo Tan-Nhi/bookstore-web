@@ -1,4 +1,4 @@
-import { logoutApi } from '@/services/api';
+import { logoutApi } from 'services/api';
 import { App, Avatar, Badge, Divider, Drawer, Dropdown, Popover, Space } from 'antd';
 import { useCurrentApp } from 'components/context/app.context';
 import { useState } from 'react';
@@ -28,7 +28,7 @@ const AppHeader = (props: any) => {
 
     }
 
-    let items = [
+    const items = [
         {
             label: <label
                 style={{ cursor: 'pointer' }}

@@ -11,7 +11,7 @@ import RegisterPage from 'pages/client/auth/register.tsx';
 import BookPage from 'pages/client/book.tsx';
 import "styles/global.scss"
 import HomePage from 'pages/client/home.tsx';
-import { App } from 'antd';
+import { App, ConfigProvider } from 'antd';
 import { AppProvider } from 'components/context/app.context.tsx';
 import ProtectedRoute from 'components/auth';
 import DashBoardPage from 'pages/admin/dashboard.tsx';
@@ -19,6 +19,8 @@ import ManageBookPage from './pages/admin/manage.book.tsx';
 import ManageOrderPage from './pages/admin/manage.order.tsx';
 import ManageUserPage from './pages/admin/manage.user.tsx';
 import LayoutAdmin from './components/layout/layout.admin.tsx';
+import enUS from 'antd/locale/en_US';
+// import viVN from 'antd/locale/vi_VN';
 
 
 const router = createBrowserRouter([
@@ -109,7 +111,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App>
       <AppProvider>
-        <RouterProvider router={router} />
+        <ConfigProvider locale={enUS}>
+          <RouterProvider router={router} />
+        </ConfigProvider>
       </AppProvider>
     </App>
   </StrictMode>,

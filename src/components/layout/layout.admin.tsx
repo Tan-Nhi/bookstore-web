@@ -13,7 +13,7 @@ import type { MenuProps } from 'antd';
 import { App, Avatar, Dropdown, Layout, Menu, Space } from 'antd';
 import React, { useState } from 'react';
 import { Link, Outlet } from "react-router-dom";
-import { useCurrentApp } from '../context/app.context';
+import { useCurrentApp } from 'components/context/app.context';
 type MenuItem = Required<MenuProps>['items'][number];
 
 const { Content, Footer, Sider } = Layout;
