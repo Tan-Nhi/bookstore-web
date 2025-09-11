@@ -9,7 +9,7 @@ type TProps = {
     setDataDetail: (v: IUserTable | null) => void;
 }
 
-const TableDetail = (props: TProps) => {
+const DetailBook = (props: TProps) => {
     const { isDetailOpen, setIsDetailOpen, dataDetail, setDataDetail } = props
 
 
@@ -28,7 +28,7 @@ const TableDetail = (props: TProps) => {
                 open={isDetailOpen}
             >
                 <Descriptions
-                    title="Thông tin Uer"
+                    title="Thông tin User"
                     bordered
                     column={2}
                 >
@@ -57,4 +57,4 @@ const TableDetail = (props: TProps) => {
         </>
     )
 }
-export default TableDetail
+export default DetailBook

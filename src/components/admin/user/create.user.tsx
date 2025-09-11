@@ -81,7 +81,7 @@ const CreateUser = (props: TProps) => {
                     <Form.Item<FieldType>
                         label="Email"
                         name="email"
-
+                        
                         rules={[
                             {
                                 required: true,

@@ -1,0 +1,42 @@
+.customize-row {
+    display: flex;
+    justify-content: space-between;
+
+
+    &__column {
+        width: calc(20% - 8px);
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        padding: 20px;
+
+        img {
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 480px) {
+            width: calc(50% - 8px);
+        }
+
+    }
+
+    &__text {
+        margin-bottom: 10px;
+        padding: 0.5rem 0;
+        font-size: .75rem;
+        height: 50px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__rating {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}

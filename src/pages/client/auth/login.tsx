@@ -1,14 +1,20 @@
 import { useCurrentApp } from "@/components/context/app.context";
 import { loginApi } from "@/services/api";
+import { GoogleLogin } from "@react-oauth/google";
 import { App, Button, Col, Divider, Form, FormProps, Input, notification, Row } from "antd";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 
 type FieldType = {
     username: string;
     password: string;
 
 };
+
+
 
 const LoginPage = () => {
     const [isSubmit, setIsSubmit] = useState(false);
@@ -37,9 +43,74 @@ const LoginPage = () => {
 
     };
 
+    const handleGoogleLogin = async (credentialResponse: any) => {
+        try {
+            if (!credentialResponse?.credential) {
+                notification.error({
+                    message: "Không nhận được mã xác thực từ Google",
+                    duration: 5
+                });
+                return;
+            }
+
+            const decoded: any = jwtDecode(credentialResponse.credential);
+
+            const { email, sub } = decoded;
+
+            if (!email || !sub) {
+                notification.error({
+                    message: "Thiếu thông tin email hoặc sub từ Google",
+                    duration: 5
+                });
+                return;
+            }
+
+            const res = await axios.post(
+                "http://localhost:8080/api/v1/auth/social-media",
+                {
+                    type: "google",
+                    email,
+                    sub
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
+            const data = res.data;
+
+            if (data.data) {
+                setIsAuthenticated(true);
+                setUser(data.data.user);
+                localStorage.setItem("access_token", data.data.access_token);
+                message.success("Đăng nhập Google thành công!");
+                navigate('/');
+            } else {
+                notification.error({
+                    message: "Đăng nhập Google thất bại",
+                    description: data.message,
+                    duration: 5
+                });
+            }
+        } catch (error: any) {
+            notification.error({
+                message: "Lỗi khi xử lý đăng nhập Google",
+                description: error?.response?.data?.message || error.message,
+                duration: 5
+            });
+        }
+
+    };
+
+
+
+
 
     return (
         <>
+
+
+
             <div className="login__page">
                 <main className="main">
                     <div className="container">
@@ -102,6 +173,18 @@ const LoginPage = () => {
                                                     Submit
                                                 </Button>
                                                 <Divider>Or</Divider>
+
+                                                <GoogleLogin
+                                                    onSuccess={handleGoogleLogin}
+                                                    onError={() => {
+                                                        notification.error({
+                                                            message: "Đăng nhập Google thất bại",
+                                                            duration: 5
+                                                        });
+                                                    }}
+                                                />
+
+                                                &nbsp;
                                                 <p style={{ textAlign: "center" }}>Chưa có tài khoản?  <Link to={"/register"} >Đăng ký Tại Đây </Link>  </p>
                                             </Form.Item>
                                         </Form>

@@ -20,6 +20,8 @@ import ManageOrderPage from './pages/admin/manage.order.tsx';
 import ManageUserPage from './pages/admin/manage.user.tsx';
 import LayoutAdmin from './components/layout/layout.admin.tsx';
 import enUS from 'antd/locale/en_US';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import ErrorPage from './pages/client/error.tsx';
 // import viVN from 'antd/locale/vi_VN';
 
 
@@ -27,13 +29,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
         element: <HomePage />
       },
       {
-        path: "/book",
+        path: "/book/:id",
         element: <BookPage />,
       },
       {
@@ -109,12 +112,14 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App>
-      <AppProvider>
-        <ConfigProvider locale={enUS}>
-          <RouterProvider router={router} />
-        </ConfigProvider>
-      </AppProvider>
-    </App>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <App>
+        <AppProvider>
+          <ConfigProvider locale={enUS}>
+            <RouterProvider router={router} />
+          </ConfigProvider>
+        </AppProvider>
+      </App>
+    </GoogleOAuthProvider>
   </StrictMode>,
 )
