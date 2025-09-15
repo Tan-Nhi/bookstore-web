@@ -11,11 +11,14 @@
 
 
 ## Công nghệ sử dụng: 
-- React 18 + Router 6 + Vite + Typescript.
+- React 18 + React Router 6 + Vite + Typescript
 - Design giao diện với Antd (Ant Design) kết hợp với Pro Component (Ant Design Pro).
-- Database: MongoDB 
+- State Management: React Hooks.
+- Build Tool: Vite.
 
-
+## Liên kết
+- [Backend Repository] ()
+- 
 ### Các bước cài đặt: (chế độ development)
 
 1. clone code
