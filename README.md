@@ -2,9 +2,11 @@
 Ứng dụng web quản lý bán sách (React + Vite + Typescript ).
 
 ## Tính năng 
-- Đăng ký / Đăng nhập người dùng.
+- Đăng ký / Đăng nhập với JWT Authenticationg.
 - Đăng nhập với Google (User).
 - Quản lý sách (CRUD).
+- Quản lý người dùng(CRUD)
+- Quản lý đơn hàng.
 - Giỏ hàng, đặt mua sách.
 - Phân quyền (User / Admin).
 - Reponsive UI. Tối ưu trãi nghiệm người dùng (UX).
@@ -18,7 +20,7 @@
 
 ## Liên kết
 - [Backend Repository] ()
-- 
+  
 ### Các bước cài đặt: (chế độ development)
 
 1. clone code
