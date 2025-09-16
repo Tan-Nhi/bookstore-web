@@ -8,6 +8,7 @@
 - Quản lý người dùng(CRUD)
 - Quản lý đơn hàng.
 - Giỏ hàng, đặt mua sách.
+- Thanh toán trực tuyến qua VNPay và COD
 - Phân quyền (User / Admin).
 - Reponsive UI. Tối ưu trãi nghiệm người dùng (UX).
 
