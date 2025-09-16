@@ -4,7 +4,7 @@ export const loginApi = (username: string, password: string) => {
     const urlBackend = "/api/v1/auth/login";
     return axios.post<IBackendRes<ILogin>>(urlBackend, { username, password }, {
         headers: {
-            delay: 2000
+            delay: 100
         }
     });
 }
@@ -19,7 +19,7 @@ export const fetchAccountApi = () => {
     const urlBackend = "/api/v1/auth/account";
     return axios.get<IBackendRes<IFetchAccount>>(urlBackend, {
         headers: {
-            delay: 1000
+            delay: 100
         }
     });
 }
@@ -34,6 +34,17 @@ export const getUserApi = (query: string) => {
     return axios.get<IBackendRes<IModelPaginate<IUserTable>>>(urlBackend,
     );
 }
+
+export const updateUserInfoApi = (_id: string, avatar: string, fullName: string, phone: string) => {
+    const urlBackend = "/api/v1/user";
+    return axios.put<IBackendRes<IRegister>>(urlBackend, { fullName, phone, avatar, _id });
+}
+
+export const updateUserPasswordApi = (email: string, oldpass: string, newpass: string) => {
+    const urlBackend = "/api/v1/user/change-password";
+    return axios.post<IBackendRes<IRegister>>(urlBackend, { email, oldpass, newpass });
+}
+
 
 export const createUserApi = (fullName: string, email: string, password: string, phone: string) => {
     const urlBackend = "/api/v1/user";
@@ -64,7 +75,7 @@ export const getBookApi = (query: string) => {
     const urlBackend = `/api/v1/book?${query}`;
     return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend, {
         headers: {
-            delay: 1000
+            delay: 100
         }
     });
 }
@@ -113,9 +124,40 @@ export const getBookByIdApi = (id: string) => {
     const urlBackend = `/api/v1/book/${id}`;
     return axios.get<IBackendRes<IBookTable>>(urlBackend, {
         headers: {
-            delay: 1000
+            delay: 100
         }
     });
 }
 
+export const createOrderApi = (
+    name: string, address: string,
+    phone: string, totalPrice: number,
+    type: string, detail: any
+) => {
+    const urlBackend = '/api/v1/order';
+    return axios.post<IBackendRes<IBookTable>>(urlBackend,
+        { name, address, phone, totalPrice, type, detail });
+}
 
+
+
+
+
+export const getHistoryApi = () => {
+    const urlBackend = "/api/v1/history";
+    return axios.get<IBackendRes<IHistory[]>>(urlBackend);
+}
+
+export const getOrderApi = (query: string) => {
+    const urlBackend = `/api/v1/order?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<IOrderTable>>>(urlBackend);
+}
+
+export const getDashboardApi = () => {
+    const urlBackend = "/api/v1/database/dashboard";
+    return axios.get<IBackendRes<{
+        countOrder: number;
+        countUser: number;
+        countBook: number;
+    }>>(urlBackend);
+}

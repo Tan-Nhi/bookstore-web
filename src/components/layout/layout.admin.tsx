@@ -11,19 +11,60 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { App, Avatar, Dropdown, Layout, Menu, Space } from 'antd';
-import React, { useState } from 'react';
-import { Link, Outlet } from "react-router-dom";
 import { useCurrentApp } from 'components/context/app.context';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 type MenuItem = Required<MenuProps>['items'][number];
 
 const { Content, Footer, Sider } = Layout;
 
 
 const LayoutAdmin = () => {
+
+
     const [collapsed, setCollapsed] = useState(false);
     const [activeMenu, setActiveMenu] = useState('dashboard');
     const { user, setUser, setIsAuthenticated, isAuthenticated } = useCurrentApp();
     const { message } = App.useApp();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const items: MenuItem[] = [
+        {
+            label: <Link to='/admin'>Dashboard</Link>,
+            key: '/admin',
+            icon: <AppstoreOutlined />
+        },
+        {
+            label: <span>Manage Users</span>,
+            key: '/admin/user',
+            icon: <UserOutlined />,
+            children: [
+                {
+                    label: <Link to='/admin/user'>CRUD</Link>,
+                    key: '/admin/user',
+                    icon: <TeamOutlined />,
+                }
+            ]
+        },
+        {
+            label: <Link to='/admin/book'>Manage Books</Link>,
+            key: '/admin/book',
+            icon: <ExceptionOutlined />
+        },
+        {
+            label: <Link to='/admin/order'>Manage Orders</Link>,
+            key: '/admin/order',
+            icon: <DollarCircleOutlined />
+        },
+
+    ];
+
+    useEffect(() => {
+        const active: any = items.find(item => location.pathname === (item!.key as any)) ?? "admin";
+        setActiveMenu(active.key)
+    }, [location])
 
     const handleLogout = async () => {
         const res = await logoutApi();
@@ -32,53 +73,13 @@ const LayoutAdmin = () => {
             setIsAuthenticated(false);
             localStorage.removeItem("access_token");
             message.info("Đăng xuất thành công!");
+            navigate('/login')
         }
 
     }
-    const items: MenuItem[] = [
-        {
-            label: <Link to='/admin'>Dashboard</Link>,
-            key: 'dashboard',
-            icon: <AppstoreOutlined />
-        },
-        {
-            label: <span>Manage Users</span>,
-            key: 'user',
-            icon: <UserOutlined />,
-            children: [
-                {
-                    label: <Link to='/admin/user'>CRUD</Link>,
-                    key: 'crud',
-                    icon: <TeamOutlined />,
-                },
-                // {
-                //     label: 'Files1',
-                //     key: 'file1',
-                //     icon: <TeamOutlined />,
-                // }
-            ]
-        },
-        {
-            label: <Link to='/admin/book'>Manage Books</Link>,
-            key: 'book',
-            icon: <ExceptionOutlined />
-        },
-        {
-            label: <Link to='/admin/order'>Manage Orders</Link>,
-            key: 'order',
-            icon: <DollarCircleOutlined />
-        },
-
-    ];
 
     const itemsDropdown = [
-        {
-            label: <label
-                style={{ cursor: 'pointer' }}
-                onClick={() => alert("me")}
-            >Quản lý tài khoản</label>,
-            key: 'account',
-        },
+
         {
             label: <Link to={'/'}>Trang chủ</Link>,
             key: 'home',
@@ -125,7 +126,7 @@ const LayoutAdmin = () => {
                         Admin
                     </div>
                     <Menu
-                        defaultSelectedKeys={[activeMenu]}
+                        selectedKeys={[activeMenu]}
                         mode="inline"
                         items={items}
                         onClick={(e) => setActiveMenu(e.key)}
@@ -158,7 +159,7 @@ const LayoutAdmin = () => {
                         <Outlet />
                     </Content>
                     <Footer style={{ padding: 0, textAlign: "center" }}>
-                        React Test Fresher &copy; Hỏi Dân IT - Made with <HeartTwoTone />
+                        Book Store &copy; Nơi khơi nguồn tri thức <HeartTwoTone />
                     </Footer>
                 </Layout>
             </Layout>

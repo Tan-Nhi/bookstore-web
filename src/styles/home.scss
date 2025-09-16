@@ -10,15 +10,14 @@
         margin-bottom: 15px;
         padding: 20px;
 
+
         img {
             width: 100%;
             object-fit: cover;
             border-radius: 8px;
         }
 
-        @media (max-width: 480px) {
-            width: calc(50% - 8px);
-        }
+
 
     }
 
@@ -32,11 +31,30 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+
     }
 
     &__rating {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        font-size: 15px;
+        width: calc(100% - 5px);
     }
+
+    @media (max-width: 480px) {
+        &__column {
+            width: calc(50% - 8px);
+            padding: 5px;
+        }
+
+        &__rating {
+            font-size: 10px;
+
+        }
+
+    }
+
+
+
 }

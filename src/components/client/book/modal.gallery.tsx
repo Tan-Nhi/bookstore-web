@@ -44,7 +44,7 @@ const ModalGallery = (props: IProps) => {
 
             >
                 <Row gutter={[20, 20]} >
-                    <Col span={18} xs={4} md={0}>
+                    <Col span={16} >
                         <ImageGallery
                             ref={refGallery}
                             items={items}
@@ -55,11 +55,10 @@ const ModalGallery = (props: IProps) => {
                             onSlide={(i) => setActiveIndex(i)}
                             slideDuration={0}
                         />
-
                     </Col>
 
-                    <Col span={6} xs={20} md={24} >
-                        <div style={{ padding: '5px 0 20px 0', fontWeight: 500, textAlign: 'center' }}>{title}</div>
+                    <Col span={8}>
+                        <div style={{ padding: '5px 0 20px 0', textAlign: 'center' }}>{title}</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '5px 0 20px 0', fontWeight: 500, textAlign: 'center' }}>
                             {
                                 items.map((item, i) => {
@@ -75,7 +74,7 @@ const ModalGallery = (props: IProps) => {
                                                     refGallery.current?.slideToIndex(i);
                                                 }}
                                             />
-                                            <div className={activeIndex === i ? "active" : ""}></div>
+                                            <div className={activeIndex === i ? "active" : " "}></div>
                                         </Col>
                                     )
                                 })

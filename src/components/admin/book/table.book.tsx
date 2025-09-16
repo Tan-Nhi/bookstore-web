@@ -60,6 +60,11 @@ const TableBook = () => {
 
     const columns: ProColumns<IBookTable>[] = [
         {
+            dataIndex: 'index',
+            valueType: 'indexBorder',
+            width: 48,
+        },
+        {
             title: '_id',
             dataIndex: '_id',
             hideInSearch: true,
@@ -107,7 +112,7 @@ const TableBook = () => {
         },
         {
             title: 'Ngày cập nhật',
-            dataIndex: 'updatedAt',
+            dataIndex: 'createdAt',
             valueType: 'date',
             sorter: true,
             hideInSearch: true,

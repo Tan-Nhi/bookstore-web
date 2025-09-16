@@ -1,8 +1,10 @@
+import { useCurrentApp } from "@/components/context/app.context";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { Col, Divider, Rate, Row } from "antd";
+import { App, Breadcrumb, Col, Divider, Rate, Row } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { BsCartPlus } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
+import { Link, useNavigate } from "react-router-dom";
 import 'styles/book.scss';
 import ModalGallery from "./modal.gallery";
 
@@ -10,8 +12,14 @@ interface IProps {
     currentBook: IBookTable | null;
 }
 
+
+type UserAction = "MINUS" | "PLUS"
+
 const BookDetail = (props: IProps) => {
     const { currentBook } = props
+
+    const navigate = useNavigate();
+    const { user, setCarts } = useCurrentApp();
 
     const [imageGallery, setImageGallery] = useState<{
         original: string;
@@ -19,12 +27,13 @@ const BookDetail = (props: IProps) => {
         originalClass: string;
         thumbnailClass: string;
     }[]>([])
+    const [currentQuantity, setCurrentQuantity] = useState<number>(1);
 
+    const { message, notification } = App.useApp();
     const [isOpenModalGallery, setIsOpenModalGallery] = useState<boolean>(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const refGallery = useRef<ImageGallery>(null);
-
 
     // const images = [
     //     {
@@ -46,6 +55,7 @@ const BookDetail = (props: IProps) => {
     //         thumbnailClass: "thumbnail-image"
     //     },
     // ];
+
     useEffect(() => {
         if (currentBook) {
             //build image
@@ -79,11 +89,93 @@ const BookDetail = (props: IProps) => {
         setCurrentIndex(refGallery.current?.getCurrentIndex() ?? 0)
     }
 
+    const handleChangeButton = (type: UserAction) => {
+        if (type === 'MINUS') {
+            if (currentQuantity - 1 <= 0)
+                return notification.error({
+                    message: "Có Lỗi xảy ra",
+                    description: "Số lượng không thể thấp hơn 1"
+                })
+            setCurrentQuantity(currentQuantity - 1)
+        }
+        if (type === 'PLUS' && currentBook) {
+            if (currentQuantity === +currentBook.quantity) return; //max
+            setCurrentQuantity(currentQuantity + 1)
+        }
+    }
+
+    const handleChangeInput = (value: string) => {
+        if (!isNaN(+value)) {
+            if (+value > 0 && currentBook && +value < +currentBook.quantity) {
+                setCurrentQuantity(+value)
+            }
+        }
+    }
+
+    const handleAddToCart = (isBuyNow = false) => {
+        if (!user) {
+            message.error("Bạn cần đăng nhập để thực hiện tính năng này!");
+            return;
+        }
+
+        //update localstorage
+        const cartStorage = localStorage.getItem("carts");
+        if (cartStorage && currentBook) {
+            //update
+            const carts = JSON.parse(cartStorage) as ICart[];
+
+            //check exits
+            let isExistIndex = carts.findIndex(c => c._id === currentBook._id);
+            if (isExistIndex > -1) {
+                carts[isExistIndex].quantity =
+                    carts[isExistIndex].quantity + currentQuantity;
+            } else {
+                carts.push({
+                    quantity: currentQuantity,
+                    _id: currentBook?._id,
+                    detail: currentBook!
+                })
+            }
+            localStorage.setItem("carts", JSON.stringify(carts));
+            setCarts(carts)
+        } else {
+            //create 
+            const data = [{
+                _id: currentBook?._id,
+                quantity: currentQuantity,
+                detail: currentBook!
+            }]
+            localStorage.setItem("carts", JSON.stringify(data))
+
+            //sync React context
+            setCarts(data as ICart[]);
+
+        }
+
+        if (isBuyNow) {
+            navigate("/order");
+        } else {
+            message.success("Thêm vào giỏ hàng thành công.")
+        }
+
+    }
+
     return (
         <>
             <div style={{ background: "#efefef", padding: '20px 0' }}>
-                <div className="view-detail-book " style={{ maxWidth: 1440, margin: '0 auto' }}>
-                    <div style={{ padding: '20px', background: "#fff", borderRadius: 5 }}>
+                <div className="view-detail-book " style={{ maxWidth: 1440, margin: '0 auto', overflow: 'hidden' }}>
+                    <Breadcrumb
+                        separator=">"
+                        items={[
+                            {
+                                title: <Link to={"/"} >Trang chủ</Link>
+                            },
+                            {
+                                title: ' Chi tiết sản phẩm'
+                            }
+                        ]}
+                    />
+                    <div style={{ padding: '20px', background: "#fff", borderRadius: 5, marginTop: 5 }}>
                         <Row gutter={[20, 20]}>
                             <Col md={10} sm={0} xs={0}>
                                 <ImageGallery
@@ -136,18 +228,25 @@ const BookDetail = (props: IProps) => {
                                     <div className="quantity">
                                         <span className="left"> Số lượng: </span>
                                         <span className="right">
-                                            <button className="decrease"> <MinusOutlined /> </button>
-                                            <input className="quantity-input" defaultValue={1} />
-                                            <button className="increase"> <PlusOutlined /> </button>
+                                            <button className="decrease" onClick={() => handleChangeButton('MINUS')}> <MinusOutlined /> </button>
+                                            <input className="quantity-input" defaultValue={1}
+                                                type="text"
+                                                value={currentQuantity}
+                                                onChange={(e) => handleChangeInput(e.target.value)} />
+                                            <button className="increase" onClick={() => handleChangeButton('PLUS')}> <PlusOutlined /> </button>
                                         </span>
                                     </div>
 
                                     <div className="buy">
-                                        <button className="cart">
+                                        <button className="cart" onClick={() => handleAddToCart()}>
                                             <BsCartPlus className="icon-cart" />
                                             <span>Thêm vào giỏ hàng</span>
                                         </button>
-                                        <button className="now">Mua ngay</button>
+                                        <button
+                                            className="now" onClick={() => {
+                                                handleAddToCart(true);
+                                            }}>Mua ngay
+                                        </button>
                                     </div>
                                 </Col>
                             </Col>

@@ -1,27 +1,29 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { App, ConfigProvider } from 'antd';
+import enUS from 'antd/locale/en_US';
+import ProtectedRoute from 'components/auth';
+import { AppProvider } from 'components/context/app.context.tsx';
+import DashBoardPage from 'pages/admin/dashboard.tsx';
+import AboutPage from 'pages/client/about.tsx';
+import LoginPage from 'pages/client/auth/login.tsx';
+import RegisterPage from 'pages/client/auth/register.tsx';
+import BookPage from 'pages/client/book.tsx';
+import HomePage from 'pages/client/home.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import "styles/global.scss";
+import LayoutAdmin from './components/layout/layout.admin.tsx';
 import Layout from './layout.tsx';
-import AboutPage from 'pages/client/about.tsx';
-import LoginPage from 'pages/client/auth/login.tsx';
-import RegisterPage from 'pages/client/auth/register.tsx';
-import BookPage from 'pages/client/book.tsx';
-import "styles/global.scss"
-import HomePage from 'pages/client/home.tsx';
-import { App, ConfigProvider } from 'antd';
-import { AppProvider } from 'components/context/app.context.tsx';
-import ProtectedRoute from 'components/auth';
-import DashBoardPage from 'pages/admin/dashboard.tsx';
 import ManageBookPage from './pages/admin/manage.book.tsx';
 import ManageOrderPage from './pages/admin/manage.order.tsx';
 import ManageUserPage from './pages/admin/manage.user.tsx';
-import LayoutAdmin from './components/layout/layout.admin.tsx';
-import enUS from 'antd/locale/en_US';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import ErrorPage from './pages/client/error.tsx';
+import OrderPage from './pages/client/order.tsx';
+import HistoryPage from './components/client/checkout/history.tsx';
 // import viVN from 'antd/locale/vi_VN';
 
 
@@ -40,14 +42,22 @@ const router = createBrowserRouter([
         element: <BookPage />,
       },
       {
+        path: "/order",
+        element: (
+          <ProtectedRoute>
+            <OrderPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/about",
         element: <AboutPage />,
       },
       {
-        path: "/checkout",
+        path: "/history",
         element: (
           <ProtectedRoute>
-            <div>checkout page</div>
+            <HistoryPage />
           </ProtectedRoute>
         ),
       }

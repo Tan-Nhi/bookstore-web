@@ -85,8 +85,8 @@ const ImportData = (props: TProps) => {
             }
         },
 
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
+        onDrop() {
+            //      console.log('Dropped files', e.dataTransfer.files);
         },
     };
 

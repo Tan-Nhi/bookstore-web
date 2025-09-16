@@ -3,8 +3,8 @@ import { getBookApi, getCategoryAPI } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Form, InputNumber, Pagination, Rate, Row, Spin, Tabs } from "antd";
 import { FormProps } from "antd/lib";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import "styles/home.scss"
 
 type FieldType = {
@@ -16,14 +16,16 @@ type FieldType = {
 
 }
 
+
 const HomePage = () => {
+    const [searchTerm] = useOutletContext() as any;
 
     const [showMobileFilter, setShowMobileFilter] = useState<boolean>(false)
     const [listCategory, setListCategory] = useState<{ label: string, value: string }[]>([]);
 
     const [listBook, setListBook] = useState<IBookTable[]>([]);
     const [current, setCurrent] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(5);
+    const [pageSize, setPageSize] = useState<number>(10);
     const [total, setTotal] = useState<number>(0)
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -47,7 +49,7 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchBook();
-    }, [current, pageSize, filter, sortQuery]);
+    }, [current, pageSize, filter, sortQuery, searchTerm]);
 
 
     const fetchBook = async () => {
@@ -60,6 +62,10 @@ const HomePage = () => {
         }
         if (sortQuery) {
             query += `&${sortQuery}`;
+        }
+
+        if (searchTerm) {
+            query += `&mainText=/${searchTerm}/i`;
         }
 
         const res = await getBookApi(query);
@@ -254,35 +260,35 @@ const HomePage = () => {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row className="customize-row">
+                                    <Row className="customize-row" >
 
                                         {listBook?.map((item, index) => {
                                             return (
-                                                <>
 
-                                                    <div className="customize-row__column"
-                                                        onClick={() => navigate(`/book/${item._id}`)}
-                                                        key={`book-${index}`}>
-                                                        <div className="customize-row__wrapper">
-                                                            <div className="customize-row__thumbnail">
-                                                                <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`} alt="thumbnail" />
-                                                            </div>
-                                                            <div className="customize-row__text" title={item.mainText}>{item.mainText} </div>
-                                                            <div className="customize-row__price">
-                                                                {new Intl.NumberFormat('vi-VN', {
-                                                                    style: 'currency', currency: 'VND',
-                                                                }).format(item.price)}
 
-                                                            </div>
-                                                            <div className="customize-row__rating">
+                                                <div className="customize-row__column"
+                                                    onClick={() => navigate(`/book/${item._id}`)}
+                                                    key={`book-${index}`}>
+                                                    <div className="customize-row__wrapper">
+                                                        <div className="customize-row__thumbnail">
+                                                            <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`} alt="thumbnail" />
+                                                        </div>
+                                                        <div className="customize-row__text" title={item.mainText}>{item.mainText} </div>
+                                                        <div className="customize-row__price">
+                                                            {new Intl.NumberFormat('vi-VN', {
+                                                                style: 'currency', currency: 'VND',
+                                                            }).format(item.price)}
 
-                                                                <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 10 }} />
-                                                                <span>Đã bán {item.sold ?? 0}</span>
-                                                            </div>
+                                                        </div>
+                                                        <div className="customize-row__rating">
+
+                                                            <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 10, flexWrap: 'nowrap', whiteSpace: 'normal' }} />
+                                                            <span>Đã bán {item.sold ?? 0}</span>
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                </>
+
                                             )
                                         })}
 

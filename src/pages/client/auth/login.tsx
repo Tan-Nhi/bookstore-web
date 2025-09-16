@@ -1,5 +1,6 @@
 import { useCurrentApp } from "@/components/context/app.context";
 import { loginApi } from "@/services/api";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { GoogleLogin } from "@react-oauth/google";
 import { App, Button, Col, Divider, Form, FormProps, Input, notification, Row } from "antd";
 import axios from "axios";
@@ -32,16 +33,24 @@ const LoginPage = () => {
             setUser(res.data.user);
             localStorage.setItem("access_token", res.data.access_token);
             message.success("Đăng nhập thành công!")
-            navigate('/')
+            if (res.data.user.role === "ADMIN") {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }
+
         } else {
             notification.error({
                 message: "Có lỗi xảy ra!",
                 description: res.message && Array.isArray(res.message) ? res.message[0] : res.message,
                 duration: 5
             });
+
         }
 
     };
+
+
 
     const handleGoogleLogin = async (credentialResponse: any) => {
         try {
@@ -103,13 +112,8 @@ const LoginPage = () => {
     };
 
 
-
-
-
     return (
         <>
-
-
 
             <div className="login__page">
                 <main className="main">
@@ -135,7 +139,7 @@ const LoginPage = () => {
                                         >
 
                                             <Form.Item<FieldType>
-                                                label="Email"
+
                                                 name="username"
                                                 rules={[
                                                     {
@@ -149,10 +153,10 @@ const LoginPage = () => {
 
                                                 ]}
                                             >
-                                                <Input />
+                                                <Input prefix={<UserOutlined />} placeholder="Email" />
                                             </Form.Item>
                                             <Form.Item<FieldType>
-                                                label="Mật khẩu"
+
                                                 name="password"
 
                                                 rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' },
@@ -162,7 +166,7 @@ const LoginPage = () => {
                                                 }
                                                 ]}
                                             >
-                                                <Input.Password />
+                                                <Input.Password prefix={<LockOutlined />} placeholder="Password" />
                                             </Form.Item>
 
 

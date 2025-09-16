@@ -21,11 +21,13 @@ declare global {
         access_token: string;
         user: {
             email: string;
-            phone: number;
+            phone: string;
             fullName: string;
             role: string;
             avatar: string;
             id: string;
+            isActive: boolean;
+
         }
     }
 
@@ -37,11 +39,12 @@ declare global {
 
     interface IUser {
         email: string;
-        phone: number;
+        phone: string;
         fullName: string;
         role: string;
         avatar: string;
         id: string;
+        isActive: boolean;
     }
 
     interface IFetchAccount {
@@ -81,5 +84,43 @@ declare global {
         updatedAt: Date;
     }
 
+    interface ICart {
+        _id: string;
+        quantity: number;
+        detail: IBookTable;
+    }
+
+    interface IHistory {
+        _id: string;
+        name: string;
+        type: string;
+        email: string;
+        phone: string;
+        userId: string;
+        detail: {
+            bookName: string;
+            quantity: number
+            _id: string;
+        }[];
+        totalPrice: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }
+
+    interface IOrderTable {
+        _id: string;
+        name: string;
+        address: string;
+        phone: string;
+        type: string;
+        detail: {
+            bookName: string;
+            quantity: number
+            _id: string;
+        }[];
+        totalPrice: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }
 
 }
