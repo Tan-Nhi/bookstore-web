@@ -14,14 +14,14 @@
 
 
 ## Công nghệ sử dụng: 
-# Front-end 
+### Front-end 
 - React 18 + React Router 6 + Vite + Typescript
 - Design giao diện với Antd (Ant Design) kết hợp với Pro Component (Ant Design Pro).
 - State Management: React Hooks.
 - Build Tool: Vite.
-# Backend
+### Backend
 -Nestjs
-# Database
+### Database
 - Mongodb
 ## Liên kết
 - [Backend Repository] (https://github.com/Tan-Nhi/book-store-api)
