@@ -10,6 +10,7 @@ import CreateUser from './create.user';
 import ImportData from './data/import.data';
 import TableDetail from './table.detail';
 import UpdateUser from './update.user';
+import "react-image-gallery/styles/css/image-gallery.css";
 
 
 
