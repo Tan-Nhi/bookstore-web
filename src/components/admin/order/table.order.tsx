@@ -29,7 +29,7 @@ const TableOrder = () => {
             title: '_id',
             dataIndex: '_id',
             hideInSearch: true,
-            render(dom, entity,) {
+            render(_, entity,) {
                 return (
                     <a href='#'
                         onClick={() => {
@@ -55,7 +55,7 @@ const TableOrder = () => {
             hideInSearch: true,
             dataIndex: 'totalPrice',
             sorter: true,
-            renderText(dom, entity) {
+            renderText(_, entity) {
                 return (
                     <>{new Intl.NumberFormat(
                         'vi-VN',

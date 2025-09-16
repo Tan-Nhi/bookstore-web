@@ -48,7 +48,7 @@ const TableUser = () => {
             title: '_id',
             dataIndex: '_id',
             hideInSearch: true,
-            render(dom, entity,) {
+            render(_, entity,) {
                 return (
                     <a href='#'
                         onClick={() => {
@@ -93,7 +93,7 @@ const TableUser = () => {
         {
             title: 'Action',
             hideInSearch: true,
-            render(dom, entity) {
+            render(_, entity) {
                 return (
                     <>
                         <EditTwoTone

@@ -68,7 +68,7 @@ const TableBook = () => {
             title: '_id',
             dataIndex: '_id',
             hideInSearch: true,
-            render(dom, entity,) {
+            render(__, entity,) {
                 return (
                     <a href='#'
                         onClick={() => {
@@ -100,7 +100,7 @@ const TableBook = () => {
             hideInSearch: true,
             dataIndex: 'price',
             sorter: true,
-            renderText(dom, entity) {
+            renderText(_, entity) {
                 return (
                     <>{new Intl.NumberFormat(
                         'vi-VN',
@@ -121,7 +121,7 @@ const TableBook = () => {
         {
             title: 'Action',
             hideInSearch: true,
-            render(dom, entity) {
+            render(_, entity) {
                 return (
                     <>
                         <EditTwoTone

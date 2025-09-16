@@ -11,7 +11,7 @@ const HistoryPage = () => {
             title: 'STT',
             dataIndex: 'index',
             key: 'index',
-            render: (item, record, index) => <>{index + 1}</>,
+            render: (_, __, index) => <>{index + 1}</>,
         },
         {
             title: 'Thời gian',

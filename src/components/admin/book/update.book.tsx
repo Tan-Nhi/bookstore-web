@@ -48,8 +48,8 @@ const UpdateBook = (props: TProps) => {
     const [loadingThumbnail, setLoadingThumbnail] = useState<boolean>(false);
     const [loadingSlider, setLoadingSlider] = useState<boolean>(false);
 
-    const [previewOpen, setPreviewOpen] = useState<boolean>(false);
-    const [previewImage, setPreviewImage] = useState<string>("");
+    const [, setPreviewOpen] = useState<boolean>(false);
+    const [, setPreviewImage] = useState<string>("");
 
     const [fileListThumbnail, setFileListThumbnail] = useState<UploadFile[]>([]);
     const [fileListSlider, setFileListSlider] = useState<UploadFile[]>([]);
