@@ -12,7 +12,6 @@
 - Phân quyền (User / Admin).
 - Reponsive UI. Tối ưu trãi nghiệm người dùng (UX).
 
-
 ## Công nghệ sử dụng: 
 ### Front-end 
 - React 18 + React Router 6 + Vite + Typescript
@@ -20,7 +19,7 @@
 - State Management: React Hooks.
 - Build Tool: Vite.
 ### Backend
--Nestjs
+- Nestjs
 ### Database
 - Mongodb
 ## Liên kết
