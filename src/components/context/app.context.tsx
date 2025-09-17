@@ -28,20 +28,33 @@ export const AppProvider = (props: TProps) => {
 
     useEffect(() => {
         const fetchAccount = async () => {
-            try {
-                const res = await fetchAccountApi();
-                const carts = localStorage.getItem("carts");
-                if (res.data) {
-                    setUser(res.data.user);
-                    setIsAuthenticated(true);
-                    if (carts) setCarts(JSON.parse(carts));
+            const res = await fetchAccountApi();
+            const carts = localStorage.getItem("carts");
+            if (res.data) {
+                setUser(res.data.user);
+                setIsAuthenticated(true);
+                if (carts) {
+                    setCarts(JSON.parse(carts))
                 }
-            } catch (err) {
-                console.error("Failed to fetch account:", err);
-            } finally {
-                setIsAppLoading(false); 
             }
-        };
+            setIsAppLoading(false)
+        }
+        fetchAccount();
+    }, [])
+
+    useEffect(() => {
+        const fetchAccount = async () => {
+            const res = await fetchAccountApi();
+            const carts = localStorage.getItem("carts");
+            if (res.data) {
+                setUser(res.data.user);
+                setIsAuthenticated(true);
+                if (carts) {
+                    setCarts(JSON.parse(carts))
+                }
+            }
+            setIsAppLoading(false)
+        }
         fetchAccount();
     }, [])
 
