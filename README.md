@@ -25,6 +25,11 @@
 ## Liên kết
 - [Backend Repository] (https://github.com/Tan-Nhi/book-store-api)
   
+### Tài khoản admin demo:
+- Email: admin@gmail.com  
+- Mật khẩu: 123456
+-  Quyền: Admin demo (được xem và thao tác hầu hết chức năng)
+
 ### Các bước cài đặt: (chế độ development)
 
 1. clone code
