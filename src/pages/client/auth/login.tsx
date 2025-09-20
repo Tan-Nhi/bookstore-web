@@ -172,22 +172,22 @@ const LoginPage = () => {
 
 
 
-                                            <Form.Item label={null} >
+                                            <Form.Item label={null}  >
                                                 <Button type="primary" htmlType="submit" loading={isSubmit} >
                                                     Submit
                                                 </Button>
                                                 <Divider>Or</Divider>
-
-                                                <GoogleLogin
-                                                    onSuccess={handleGoogleLogin}
-                                                    onError={() => {
-                                                        notification.error({
-                                                            message: "Đăng nhập Google thất bại",
-                                                            duration: 5
-                                                        });
-                                                    }}
-                                                />
-
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <GoogleLogin
+                                                        onSuccess={handleGoogleLogin}
+                                                        onError={() => {
+                                                            notification.error({
+                                                                message: "Đăng nhập Google thất bại",
+                                                                duration: 5
+                                                            });
+                                                        }}
+                                                    />
+                                                </div>
                                                 &nbsp;
                                                 <p style={{ textAlign: "center" }}>Chưa có tài khoản?  <Link to={"/register"} >Đăng ký Tại Đây </Link>  </p>
                                             </Form.Item>
